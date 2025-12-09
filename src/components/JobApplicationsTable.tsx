@@ -19,7 +19,7 @@ function JobApplicationsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Object.entries(job).filter(([k, v]) => k !== "id" && k !== "title").map(([dataKey, dataValue]) => (
+                            {Object.entries(job).filter(([k, _]) => k !== "id" && k !== "title").map(([dataKey, dataValue]) => (
                                 <tr>
                                     <td className='w-1/3 border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
                                     <td className='w-2/3 border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
