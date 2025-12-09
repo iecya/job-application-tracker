@@ -1,5 +1,6 @@
 import type { JobApplication } from '../types/JobApplication';
 import { formatKeyLabel, formatValue } from '../utils/formats';
+import "./JobApplicationsTable.css";
 
 type JobApplicationsTableProps = {
     jobApps: JobApplication[]
@@ -26,10 +27,18 @@ function JobApplicationsTable({ jobApps: jobs }: JobApplicationsTableProps) {
                             <tbody>
                                 {Object.entries(job).filter(([k, _]) => k !== "id" && k !== "title").map(([dataKey, dataValue]) => (
                                     <tr>
-                                        <td className='w-1/3 border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
-                                        <td className='w-2/3 border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
+                                        <td className='border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
+                                        <td className='border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
                                     </tr>
                                 ))}
+                                <tr>
+                                    <td className='px-2 py-3 text-right'>
+                                        <button className="actionButton actionEditButton w-full">Edit</button>
+                                    </td>
+                                    <td className='px-2 py-3 text-left'>
+                                        <button className="actionButton actionDeleteButton w-full">Delete</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     ))}
@@ -41,6 +50,7 @@ function JobApplicationsTable({ jobApps: jobs }: JobApplicationsTableProps) {
                                     {headers.map(h => (
                                         <th className='p-6'>{formatKeyLabel(h)}</th>
                                     ))}
+                                    <th className='p-6'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,6 +59,10 @@ function JobApplicationsTable({ jobApps: jobs }: JobApplicationsTableProps) {
                                         {headers.map(header => (
                                             <td className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
                                         ))}
+                                        <td className='border-y border-gray-600 p-6 max-w-lg space-x-4'>
+                                            <button className="actionButton actionEditButton">Edit</button>
+                                            <button className="actionButton actionDeleteButton">Delete</button>
+                                    </td>
                                     </tr>                                    
                                 ))}                                
                             </tbody>
