@@ -1,7 +1,12 @@
 import { mockJobs } from '../data/mockJobs'
+import type { JobApplication } from '../types/JobApplication';
 import { formatKeyLabel, formatValue } from '../utils/strings';
 
 function JobApplicationsTable() {
+    const headers = Array.from(
+        new Set(mockJobs.flatMap(j => Object.keys(j).filter(k => k !== "id")))
+    ) as (keyof JobApplication)[];
+
     return(
         <>
             <h2 className='text-2xl font-bold text-center'>Job Applications</h2>
@@ -22,8 +27,36 @@ function JobApplicationsTable() {
                             ))}
                         </tbody>
                     </table>
+                ))}
+
+
+                <div className='w-full overflow-x-auto'>
+                    <table className='table-auto min-w-max text-md text-left border-collapse bg-teal-950/10 hidden lg:block'>
+                        <thead className='bg-teal-900/50 font-bold'>
+                            <tr>
+                                {headers.map(h => (
+                                    <th className='p-6'>{formatKeyLabel(h)}</th>
+
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {mockJobs.map(job => (
+                                <tr className='hover:bg-teal-800/10'>
+                                    {headers.map(header => (
+                                        <td className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
+                                    ))}
+                                </tr>
+                                
+                            ))}
+                            
+                        </tbody>
+                    </table>
                 </div>
-            ))}
+
+
+                
+            </div>
         </>
     )
 }
