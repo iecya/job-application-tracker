@@ -4,10 +4,11 @@ import "./JobApplicationsTable.css";
 
 type JobApplicationsTableProps = {
     jobApps: JobApplication[],
-    onDeleteJob: (id: string) => void
+    onDeleteJob: (id: string) => void,
+    onNewJobApp: () => void
 }
 
-function JobApplicationsTable({ jobApps, onDeleteJob }: JobApplicationsTableProps) {
+function JobApplicationsTable({ jobApps, onDeleteJob, onNewJobApp }: JobApplicationsTableProps) {
     const headers = Array.from(
         new Set(jobApps.flatMap(j => Object.keys(j).filter(k => k !== "id")))
     ) as (keyof JobApplication)[];
@@ -16,7 +17,8 @@ function JobApplicationsTable({ jobApps, onDeleteJob }: JobApplicationsTableProp
         <>
             <div className='space-y-4'>
                 <h2 className='text-2xl font-bold text-center'>Job Applications</h2>
-                <button className='bg-teal-800 py-2 px-3 w-auto mx-auto block font-semibold hover:bg-teal-900 hover:border-transparent focus:outline-teal-600 focus-visible:outline-teal-600'>New Application</button>
+                <button className='bg-teal-800 py-2 px-3 w-auto mx-auto block font-semibold hover:bg-teal-900 hover:border-transparent focus:outline-teal-600 focus-visible:outline-teal-600'
+                    onClick={() => onNewJobApp()}>New Application</button>
                 <div className='space-y-15'>
                     {jobApps.map(job => (
                         <table key={job.id} className='w-full text-sm table-fixed text-left border-collapse bg-teal-950/10 lg:hidden'>

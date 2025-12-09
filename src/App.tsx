@@ -20,8 +20,14 @@ function App() {
       <div className='space-y-4'>
         <Header />
         <DashboardStats jobApps={jobApps} />
-        <JobApplicationsTable jobApps={jobApps} onDeleteJob={handleDeleteJob} />
-        {isNewAppModalOpen && <NewJobApplicationModal />}
+        <JobApplicationsTable 
+          jobApps={jobApps} 
+          onDeleteJob={handleDeleteJob} 
+          onNewJobApp={() => setIsNewAppModalOpen(true)} 
+        />
+        {isNewAppModalOpen && (
+          <NewJobApplicationModal onClose={() => setIsNewAppModalOpen(false)}/>
+        )}
       </div>
     </>
   )
