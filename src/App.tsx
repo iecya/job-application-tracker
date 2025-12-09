@@ -3,6 +3,7 @@ import './App.css'
 import Header from './components/Header.tsx'
 import DashboardStats from './components/DashboardStats.tsx'
 import JobApplicationsTable from './components/JobApplicationsTable'
+import NewJobApplicationModal from './components/NewJobApplicationModal'
 import type { JobApplication } from './types/JobApplication.ts'
 import { mockJobs } from './data/mockJobs.ts'
 
@@ -19,6 +20,7 @@ function App() {
         <Header />
         <DashboardStats jobApps={jobApps} />
         <JobApplicationsTable jobApps={jobApps} onDeleteJob={handleDeleteJob} />
+        <NewJobApplicationModal />
       </div>
     </>
   )
