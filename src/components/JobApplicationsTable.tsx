@@ -1,10 +1,13 @@
-import { mockJobs } from '../data/mockJobs'
 import type { JobApplication } from '../types/JobApplication';
 import { formatKeyLabel, formatValue } from '../utils/formats';
 
-function JobApplicationsTable() {
+type JobApplicationsTableProps = {
+    jobApps: JobApplication[]
+}
+
+function JobApplicationsTable({ jobApps: jobs }: JobApplicationsTableProps) {
     const headers = Array.from(
-        new Set(mockJobs.flatMap(j => Object.keys(j).filter(k => k !== "id")))
+        new Set(jobs.flatMap(j => Object.keys(j).filter(k => k !== "id")))
     ) as (keyof JobApplication)[];
 
     return(
@@ -13,7 +16,7 @@ function JobApplicationsTable() {
                 <h2 className='text-2xl font-bold text-center'>Job Applications</h2>
                 <button className='bg-teal-800 py-2 px-3 w-auto mx-auto block font-semibold hover:bg-teal-900 hover:border-transparent focus:outline-teal-600 focus-visible:outline-teal-600'>New Application</button>
                 <div className='space-y-15'>
-                    {mockJobs.map(job => (
+                    {jobs.map(job => (
                         <table className='w-full text-sm table-fixed text-left border-collapse bg-teal-950/10 lg:hidden'>
                             <thead className='bg-teal-900/50 text-3xl text-center font-bold'>
                                 <tr>
@@ -41,7 +44,7 @@ function JobApplicationsTable() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {mockJobs.map(job => (
+                                {jobs.map(job => (
                                     <tr className='hover:bg-teal-800/10'>
                                         {headers.map(header => (
                                             <td className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
