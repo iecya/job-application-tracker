@@ -1,18 +1,22 @@
-import * as jobApplications from "../data/mockJobs"
+import type { JobApplication } from "../types/JobApplication"
 import StatCard from "./StatCard"
 
-function getApplicationCountByStatus(status: string): number {
-    return jobApplications.mockJobs.filter(japp => japp.status === status).length
+type DashboardStatsProps = {
+    jobApps: JobApplication[]
 }
 
-function DashboardStats() {
+function getApplicationCountByStatus(jobs: JobApplication[], status: string): number {
+    return jobs.filter(japp => japp.status === status).length
+}
+
+function DashboardStats({ jobApps: jobs }: DashboardStatsProps) {
     const stats = {
-        applications: jobApplications.mockJobs.length,
-        applied: getApplicationCountByStatus("applied"),
-        interview: getApplicationCountByStatus("interview"),
-        offer: getApplicationCountByStatus("offer"),
-        accepted: getApplicationCountByStatus("accepted"),
-        rejected: getApplicationCountByStatus("rejected")
+        applications: jobs.length,
+        applied: getApplicationCountByStatus(jobs, "applied"),
+        interview: getApplicationCountByStatus(jobs, "interview"),
+        offer: getApplicationCountByStatus(jobs, "offer"),
+        accepted: getApplicationCountByStatus(jobs, "accepted"),
+        rejected: getApplicationCountByStatus(jobs, "rejected")
     }
     return (
         <>

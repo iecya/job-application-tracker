@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.actionButton {
+    @apply px-4 py-2 shadow-sm uppercase font-bold bg-stone-800 inline-block hover:bg-stone-900;
+}
+
+.actionEditButton {
+    @apply shadow-cyan-800 text-cyan-800 hover:text-cyan-700 hover:shadow-cyan-700;
+}
+
+.actionDeleteButton {
+    @apply shadow-red-800 text-red-800 hover:text-red-700 hover:shadow-red-700;
+}

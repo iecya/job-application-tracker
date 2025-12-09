@@ -1,10 +1,15 @@
-import { mockJobs } from '../data/mockJobs'
 import type { JobApplication } from '../types/JobApplication';
 import { formatKeyLabel, formatValue } from '../utils/formats';
+import "./JobApplicationsTable.css";
 
-function JobApplicationsTable() {
+type JobApplicationsTableProps = {
+    jobApps: JobApplication[],
+    onDeleteJob: (id: string) => void
+}
+
+function JobApplicationsTable({ jobApps, onDeleteJob }: JobApplicationsTableProps) {
     const headers = Array.from(
-        new Set(mockJobs.flatMap(j => Object.keys(j).filter(k => k !== "id")))
+        new Set(jobApps.flatMap(j => Object.keys(j).filter(k => k !== "id")))
     ) as (keyof JobApplication)[];
 
     return(
@@ -13,8 +18,8 @@ function JobApplicationsTable() {
                 <h2 className='text-2xl font-bold text-center'>Job Applications</h2>
                 <button className='bg-teal-800 py-2 px-3 w-auto mx-auto block font-semibold hover:bg-teal-900 hover:border-transparent focus:outline-teal-600 focus-visible:outline-teal-600'>New Application</button>
                 <div className='space-y-15'>
-                    {mockJobs.map(job => (
-                        <table className='w-full text-sm table-fixed text-left border-collapse bg-teal-950/10 lg:hidden'>
+                    {jobApps.map(job => (
+                        <table key={job.id} className='w-full text-sm table-fixed text-left border-collapse bg-teal-950/10 lg:hidden'>
                             <thead className='bg-teal-900/50 text-3xl text-center font-bold'>
                                 <tr>
                                     <th colSpan={2} className='p-3'>{job.title}</th>
@@ -22,11 +27,26 @@ function JobApplicationsTable() {
                             </thead>
                             <tbody>
                                 {Object.entries(job).filter(([k, _]) => k !== "id" && k !== "title").map(([dataKey, dataValue]) => (
-                                    <tr>
-                                        <td className='w-1/3 border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
-                                        <td className='w-2/3 border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
+                                    <tr key={dataKey}>
+                                        <td className='border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
+                                        <td className='border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
                                     </tr>
                                 ))}
+                                <tr>
+                                    <td className='px-2 py-3 text-right'>
+                                        <button className="actionButton actionEditButton w-full">Edit</button>
+                                    </td>
+                                    <td className='px-2 py-3 text-left'>
+                                        <button className="actionButton actionDeleteButton w-full"
+                                            onClick={() => {
+                                                const shouldDelete = window.confirm(
+                                                    `Are you sure you want to delete "${job.title}"?`
+                                                )
+
+                                                if (shouldDelete) onDeleteJob(job.id)
+                                            }}>Delete</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     ))}
@@ -36,16 +56,28 @@ function JobApplicationsTable() {
                             <thead className='bg-teal-900/50 font-bold'>
                                 <tr>
                                     {headers.map(h => (
-                                        <th className='p-6'>{formatKeyLabel(h)}</th>
+                                        <th key={h} className='p-6'>{formatKeyLabel(h)}</th>
                                     ))}
+                                    <th className='p-6'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {mockJobs.map(job => (
-                                    <tr className='hover:bg-teal-800/10'>
+                                {jobApps.map(job => (
+                                    <tr key={job.id} className='hover:bg-teal-800/10'>
                                         {headers.map(header => (
-                                            <td className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
+                                            <td key={header} className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
                                         ))}
+                                        <td className='border-y border-gray-600 p-6 max-w-lg space-x-4'>
+                                            <button className="actionButton actionEditButton">Edit</button>
+                                            <button className="actionButton actionDeleteButton"
+                                            onClick={() => {
+                                                const shouldDelete = window.confirm(
+                                                    `Are you sure you want to delete "${job.title}"?`
+                                                )
+
+                                                if (shouldDelete) onDeleteJob(job.id)
+                                            }}>Delete</button>
+                                        </td>
                                     </tr>                                    
                                 ))}                                
                             </tbody>
