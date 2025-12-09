@@ -1,6 +1,6 @@
 import { mockJobs } from '../data/mockJobs'
 import type { JobApplication } from '../types/JobApplication';
-import { formatKeyLabel, formatValue } from '../utils/strings';
+import { formatKeyLabel, formatValue } from '../utils/formats';
 
 function JobApplicationsTable() {
     const headers = Array.from(
