@@ -38,7 +38,13 @@ function JobApplicationsTable({ jobApps, onDeleteJob }: JobApplicationsTableProp
                                     </td>
                                     <td className='px-2 py-3 text-left'>
                                         <button className="actionButton actionDeleteButton w-full"
-                                            onClick={() => onDeleteJob(job.id)}>Delete</button>
+                                            onClick={() => {
+                                                const shouldDelete = window.confirm(
+                                                    `Are you sure you want to delete "${job.title}"?`
+                                                )
+
+                                                if (shouldDelete) onDeleteJob(job.id)
+                                            }}>Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -64,10 +70,13 @@ function JobApplicationsTable({ jobApps, onDeleteJob }: JobApplicationsTableProp
                                         <td className='border-y border-gray-600 p-6 max-w-lg space-x-4'>
                                             <button className="actionButton actionEditButton">Edit</button>
                                             <button className="actionButton actionDeleteButton"
-                                                onClick={() => {
-                                                    console.log(`Deleting job id: ${job.id}`)
-                                                    onDeleteJob(job.id)
-                                                }}>Delete</button>
+                                            onClick={() => {
+                                                const shouldDelete = window.confirm(
+                                                    `Are you sure you want to delete "${job.title}"?`
+                                                )
+
+                                                if (shouldDelete) onDeleteJob(job.id)
+                                            }}>Delete</button>
                                         </td>
                                     </tr>                                    
                                 ))}                                
