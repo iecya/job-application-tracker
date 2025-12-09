@@ -9,6 +9,7 @@ import { mockJobs } from './data/mockJobs.ts'
 
 function App() {
   const [jobApps, setJobs] = useState<JobApplication[]>(mockJobs)
+  const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
 
   function handleDeleteJob(id: string) {
     setJobs(prevJobApps => prevJobApps.filter(japp => japp.id !== id))
@@ -20,7 +21,7 @@ function App() {
         <Header />
         <DashboardStats jobApps={jobApps} />
         <JobApplicationsTable jobApps={jobApps} onDeleteJob={handleDeleteJob} />
-        <NewJobApplicationModal />
+        {isNewAppModalOpen && <NewJobApplicationModal />}
       </div>
     </>
   )
