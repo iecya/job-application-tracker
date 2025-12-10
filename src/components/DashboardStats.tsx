@@ -22,7 +22,7 @@ function DashboardStats({ jobApps: jobs }: DashboardStatsProps) {
         <>
             <div className="flex flex-wrap w-full gap-4 justify-between">
                 {Object.entries(stats).map(([key, value]) => (
-                    <StatCard statName={key} statValue={value} />
+                    <StatCard key={key} statName={key} statValue={value} />
                 ))}
             </div>
         </>
