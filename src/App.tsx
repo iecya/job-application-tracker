@@ -15,6 +15,11 @@ function App() {
     setJobs(prevJobApps => prevJobApps.filter(japp => japp.id !== id))
   }
 
+  function handleNewJobApp(jobApp: JobApplication) {
+    setJobs(prevJobs => [jobApp, ...prevJobs])
+    setIsNewAppModalOpen(false)
+  }
+
   useEffect(() => {
     if (isNewAppModalOpen) {
       const originalOverflow = document.body.style.overflow
@@ -37,7 +42,7 @@ function App() {
           onNewJobApp={() => setIsNewAppModalOpen(true)} 
         />
         {isNewAppModalOpen && (
-          <NewJobApplicationModal onClose={() => setIsNewAppModalOpen(false)}/>
+          <NewJobApplicationModal onClose={() => setIsNewAppModalOpen(false)} onSave={handleNewJobApp} />
         )}
       </div>
     </>

@@ -5,6 +5,7 @@ import { createJobId } from '../utils/formats'
 
 type NewJobApplicationModalProps = {
     onClose: () => void
+    onSave: (jobApp: JobApplication) => void
 }
 
 const fields = [
@@ -23,7 +24,7 @@ const fields = [
     {name: "nextFollowUp", label: "Follow Up", type: "text", required: false},
 ]
 
-function NewJobApplicationModal({ onClose }: NewJobApplicationModalProps) {
+function NewJobApplicationModal({ onClose, onSave }: NewJobApplicationModalProps) {
     const [formData, setFormData] = useState<JobApplication>({
         id: createJobId(),
         title: "",
@@ -49,7 +50,8 @@ function NewJobApplicationModal({ onClose }: NewJobApplicationModalProps) {
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
-        console.log("Form submitted: ", { formData })
+        const creationTime = new Date().toISOString()
+        onSave({...formData, lastUpdated: creationTime})
     }
 
 
