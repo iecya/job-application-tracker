@@ -19,7 +19,7 @@ function EditJobApplicationModal({ job, onClose, onSave }: EditJobApplicationMod
                 </button>
                 <div className='max-h-[90vh] overflow-y-auto w-[80vw] xl:w-[70vw] 2xl:w-[50vw]'>
                     <div className="bg-zinc-900 p-6 rounded-xl text-white relative">
-                        <h2 className='text-2xl font-bold mb-4'>New Job Application</h2>
+                        <h2 className='text-2xl font-bold mb-4'>Edit Job Application</h2>
                         <JobApplicationForm 
                             initialValues={job}
                             onSubmit={onSave}
