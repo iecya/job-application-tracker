@@ -6,11 +6,12 @@ import JobApplicationsTable from './components/JobApplicationsTable'
 import NewJobApplicationModal from './components/NewJobApplicationModal'
 import type { JobApplication } from './types/JobApplication.ts'
 import { mockJobs } from './data/mockJobs.ts'
+import EditJobApplicationModal from './components/EditJobApplicationModal.tsx'
 
 function App() {
   const [jobApps, setJobs] = useState<JobApplication[]>(mockJobs)
   const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
-  const [editingJobApp, setEditingJobApp] = useState<JobApplication>()
+  const [editingJobApp, setEditingJobApp] = useState<JobApplication | null>(null)
 
   function handleDeleteJob(id: string) {
     setJobs(prevJobApps => prevJobApps.filter(japp => japp.id !== id))
@@ -53,6 +54,12 @@ function App() {
           <NewJobApplicationModal 
             onClose={() => setIsNewAppModalOpen(false)} 
             onSave={handleNewJobApp} 
+          />
+        )}
+        {editingJobApp && (
+          <EditJobApplicationModal
+            job={editingJobApp}
+            onClose={() => setEditingJobApp(null)}
           />
         )}
       </div>
