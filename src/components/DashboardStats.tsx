@@ -5,8 +5,8 @@ type DashboardStatsProps = {
     jobApps: JobApplication[]
 }
 
-function getApplicationCountByStatus(jobs: JobApplication[], status: string): number {
-    return jobs.filter(japp => japp.status === status).length
+function getApplicationCountByStatus(jobApplications: JobApplication[], status: string): number {
+    return jobApplications.filter(japp => japp.status === status).length
 }
 
 function DashboardStats({ jobApps: jobs }: DashboardStatsProps) {
