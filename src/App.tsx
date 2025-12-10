@@ -24,6 +24,16 @@ function App() {
     setEditingJobApp(jobApp)
   }
 
+  function handleNewJobAndCloseModal(newJobApplication: JobApplication) {
+    handleNewJobApplication(newJobApplication)
+    setIsNewAppModalOpen(false)
+  }
+
+  function handleSaveJobAndCloseModal(jobApplication: JobApplication) {
+    handleSaveJobApplication(jobApplication)
+    setEditingJobApp(null)
+  }
+
   useEffect(() => {
     if (isNewAppModalOpen) {
       const originalOverflow = document.body.style.overflow
@@ -49,14 +59,14 @@ function App() {
         {isNewAppModalOpen && (
           <NewJobApplicationModal 
             onClose={() => setIsNewAppModalOpen(false)} 
-            onSave={handleNewJobApplication} 
+            onSave={handleNewJobAndCloseModal} 
           />
         )}
         {editingJobApp && (
           <EditJobApplicationModal
             job={editingJobApp}
             onClose={() => setEditingJobApp(null)}
-            onSave={handleSaveJobApplication}
+            onSave={handleSaveJobAndCloseModal}
           />
         )}
       </div>

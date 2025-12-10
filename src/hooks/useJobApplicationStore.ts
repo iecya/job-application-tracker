@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { JobApplication } from "../types/JobApplication";
 
 const LOCAL_STORAGE_KEY = "job-applications";
@@ -29,6 +29,10 @@ function useJobApplicationStore() {
             )
         )
     }
+
+    useEffect (() => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(jobApplications))
+    }, [jobApplications])
 
     return {
         jobApplications,
