@@ -7,6 +7,7 @@ import NewJobApplicationModal from './components/NewJobApplicationModal'
 import type { JobApplication } from './types/JobApplication.ts'
 import EditJobApplicationModal from './components/EditJobApplicationModal.tsx'
 import useJobApplicationStore from './hooks/useJobApplicationStore.ts'
+import JobApplicationFilters from './components/JobApplicationFilters.tsx'
 
 function App() {
   const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
@@ -49,13 +50,35 @@ function App() {
     <>
       <div className='space-y-4'>
         <Header />
-        {jobApplications.length > 0 && <DashboardStats jobApps={jobApplications} />}
-        <JobApplicationsTable 
-          jobApps={jobApplications} 
-          onDeleteJob={handleDeleteJobApplication} 
-          onNewJobApp={() => setIsNewAppModalOpen(true)}
-          onEditJobApp={handleStartEditJob}
-        />
+
+        {jobApplications.length > 0 && (
+          <>
+            
+            <DashboardStats jobApps={jobApplications} />
+          </>
+        )}
+        <div className='space-y-4'>
+            <h2 className='text-2xl font-bold text-center'>Job Applications</h2>
+            <button className='bg-teal-800 py-2 px-3 w-auto mx-auto block font-semibold hover:bg-teal-900 hover:border-transparent focus:outline-teal-600 focus-visible:outline-teal-600'
+                onClick={() => setIsNewAppModalOpen(true)}>New Application</button>
+            
+            {jobApplications.length === 0 ? (
+              <div className='italic text-gray-400'>
+                  <p>You do not have any job application saved.</p>
+                  <p>Add a new job application using the button above to get started</p>
+              </div>
+            ) : (
+              <>
+                <JobApplicationFilters />
+                <JobApplicationsTable 
+                  jobApps={jobApplications} 
+                  onDeleteJob={handleDeleteJobApplication} 
+                  onEditJobApp={handleStartEditJob}
+                />  
+              </> 
+            )}
+                         
+        </div>
         {isNewAppModalOpen && (
           <NewJobApplicationModal 
             onClose={() => setIsNewAppModalOpen(false)} 
