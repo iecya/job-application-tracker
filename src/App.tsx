@@ -10,6 +10,7 @@ import { mockJobs } from './data/mockJobs.ts'
 function App() {
   const [jobApps, setJobs] = useState<JobApplication[]>(mockJobs)
   const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
+  const [editingJobApp, setEditingJobApp] = useState<JobApplication>()
 
   function handleDeleteJob(id: string) {
     setJobs(prevJobApps => prevJobApps.filter(japp => japp.id !== id))
@@ -18,6 +19,12 @@ function App() {
   function handleNewJobApp(jobApp: JobApplication) {
     setJobs(prevJobs => [jobApp, ...prevJobs])
     setIsNewAppModalOpen(false)
+  }
+
+  function handleStartEditJob(id: string) {
+    const jobApp = jobApps.find(japp => japp.id === id)
+    if (!jobApp) return
+    setEditingJobApp(jobApp)
   }
 
   useEffect(() => {
@@ -39,10 +46,14 @@ function App() {
         <JobApplicationsTable 
           jobApps={jobApps} 
           onDeleteJob={handleDeleteJob} 
-          onNewJobApp={() => setIsNewAppModalOpen(true)} 
+          onNewJobApp={() => setIsNewAppModalOpen(true)}
+          onEditJobApp={handleStartEditJob}
         />
         {isNewAppModalOpen && (
-          <NewJobApplicationModal onClose={() => setIsNewAppModalOpen(false)} onSave={handleNewJobApp} />
+          <NewJobApplicationModal 
+            onClose={() => setIsNewAppModalOpen(false)} 
+            onSave={handleNewJobApp} 
+          />
         )}
       </div>
     </>
