@@ -5,7 +5,6 @@ import DashboardStats from './components/DashboardStats.tsx'
 import JobApplicationsTable from './components/JobApplicationsTable'
 import NewJobApplicationModal from './components/NewJobApplicationModal'
 import type { JobApplication } from './types/JobApplication.ts'
-import { mockJobs } from './data/mockJobs.ts'
 import EditJobApplicationModal from './components/EditJobApplicationModal.tsx'
 import useJobApplicationStore from './hooks/useJobApplicationStore.ts'
 
@@ -17,7 +16,7 @@ function App() {
     handleDeleteJobApplication,
     handleNewJobApplication,
     handleSaveJobApplication
-  } = useJobApplicationStore(mockJobs)
+  } = useJobApplicationStore()
 
   function handleStartEditJob(id: string) {
     const jobApp = jobApplications.find(japp => japp.id === id)
@@ -40,7 +39,7 @@ function App() {
     <>
       <div className='space-y-4'>
         <Header />
-        <DashboardStats jobApps={jobApplications} />
+        {jobApplications.length > 0 && <DashboardStats jobApps={jobApplications} />}
         <JobApplicationsTable 
           jobApps={jobApplications} 
           onDeleteJob={handleDeleteJobApplication} 

@@ -1,9 +1,18 @@
 import { useState } from "react";
 import type { JobApplication } from "../types/JobApplication";
 
+const LOCAL_STORAGE_KEY = "job-applications";
 
-function useJobApplicationStore(initialJobs: JobApplication[]) {
-    const [jobApplications, setJobApplications] = useState<JobApplication[]>(initialJobs)
+function useJobApplicationStore() {
+    function getInitialJobApplications() {
+        try {
+            return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "[]")
+        } catch(e: any) {
+            console.log(`Could not retrieve job applications from local storage with error message: "${e.message}"`)
+        }
+    }
+
+    const [jobApplications, setJobApplications] = useState<JobApplication[]>(getInitialJobApplications)
 
     function handleDeleteJobApplication(id: string) {
         setJobApplications(prevJobApplications => prevJobApplications.filter(jobApp => jobApp.id !== id))
