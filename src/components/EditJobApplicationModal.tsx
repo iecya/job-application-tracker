@@ -1,11 +1,13 @@
 import type { JobApplication } from "../types/JobApplication"
+import JobApplicationForm from "./JobApplicationForm"
 
 type EditJobApplicationModalProps = {
     job: JobApplication
     onClose: () => void
+    onSave: (jobApp: JobApplication) => void
 }
 
-function EditJobApplicationModal({ job, onClose }: EditJobApplicationModalProps) {
+function EditJobApplicationModal({ job, onClose, onSave }: EditJobApplicationModalProps) {
     return (
         <div className="fixed inset-0 bg-black/80 z-50">
             <div className="w-full h-full relative flex justify-center items-center">
@@ -16,13 +18,15 @@ function EditJobApplicationModal({ job, onClose }: EditJobApplicationModalProps)
                     ×
                 </button>
                 <div className='max-h-[90vh] overflow-y-auto w-[80vw] xl:w-[70vw] 2xl:w-[50vw]'>
-                    <h2 className='text-2xl font-bold mb-4'>New Job Application</h2>
-                    <p className="mb-2 text-sm text-gray-300">
-                        You are editing:
-                    </p>
-                    <p className="font-semibold">
-                        {job.title} @ {job.company}
-                    </p>
+                    <div className="bg-zinc-900 p-6 rounded-xl text-white relative">
+                        <h2 className='text-2xl font-bold mb-4'>New Job Application</h2>
+                        <JobApplicationForm 
+                            initialValues={job}
+                            onSubmit={onSave}
+                            onCancel={onClose}
+                        
+                        />
+                    </div>
                 </div>
             </div>
         </div>

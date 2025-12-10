@@ -63,7 +63,7 @@ function JobApplicationForm({
                                             id={field.name}
                                             className='formInput'
                                             required={field.required}
-                                            defaultValue=""
+                                            defaultValue={field.name}
                                             onChange={(e) => updateField(field.name as keyof JobApplication, e.target.value)}
                                         >
                                             <option value="" disabled>Select an option...</option>
