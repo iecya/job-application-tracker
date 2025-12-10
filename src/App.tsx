@@ -9,6 +9,7 @@ import type { FilterState } from './types/Filters.ts'
 import EditJobApplicationModal from './components/EditJobApplicationModal.tsx'
 import useJobApplicationStore from './hooks/useJobApplicationStore.ts'
 import JobApplicationFilters from './components/JobApplicationFilters.tsx'
+import Footer from './components/Footer.tsx'
 
 function App() {
   const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
@@ -115,6 +116,8 @@ function App() {
             onSave={handleSaveJobAndCloseModal}
           />
         )}
+
+        <Footer />
       </div>
     </>
   )
