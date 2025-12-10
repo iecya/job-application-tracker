@@ -6,9 +6,10 @@ type JobApplicationsTableProps = {
     jobApps: JobApplication[],
     onDeleteJob: (id: string) => void,
     onNewJobApp: () => void
+    onEditJobApp: (id: string) => void
 }
 
-function JobApplicationsTable({ jobApps, onDeleteJob, onNewJobApp }: JobApplicationsTableProps) {
+function JobApplicationsTable({ jobApps, onDeleteJob, onNewJobApp, onEditJobApp }: JobApplicationsTableProps) {
     const headers = Array.from(
         new Set(jobApps.flatMap(j => Object.keys(j).filter(k => k !== "id")))
     ) as (keyof JobApplication)[];
@@ -36,7 +37,9 @@ function JobApplicationsTable({ jobApps, onDeleteJob, onNewJobApp }: JobApplicat
                                 ))}
                                 <tr>
                                     <td className='px-2 py-3 text-right'>
-                                        <button className="actionButton actionEditButton w-full">Edit</button>
+                                        <button className="actionButton actionEditButton w-full"
+                                            onClick={() => {onEditJobApp(job.id)}}
+                                        >Edit</button>
                                     </td>
                                     <td className='px-2 py-3 text-left'>
                                         <button className="actionButton actionDeleteButton w-full"
@@ -70,15 +73,18 @@ function JobApplicationsTable({ jobApps, onDeleteJob, onNewJobApp }: JobApplicat
                                             <td key={header} className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
                                         ))}
                                         <td className='border-y border-gray-600 p-6 max-w-lg space-x-4'>
-                                            <button className="actionButton actionEditButton">Edit</button>
+                                            <button className="actionButton actionEditButton"
+                                                    onClick={() => {onEditJobApp(job.id)}}
+                                            >Edit</button>
                                             <button className="actionButton actionDeleteButton"
-                                            onClick={() => {
-                                                const shouldDelete = window.confirm(
-                                                    `Are you sure you want to delete "${job.title}"?`
-                                                )
+                                                    onClick={() => {
+                                                        const shouldDelete = window.confirm(
+                                                            `Are you sure you want to delete "${job.title}"?`
+                                                        )
 
-                                                if (shouldDelete) onDeleteJob(job.id)
-                                            }}>Delete</button>
+                                                        if (shouldDelete) onDeleteJob(job.id)
+                                                    }}
+                                            >Delete</button>
                                         </td>
                                     </tr>                                    
                                 ))}                                
