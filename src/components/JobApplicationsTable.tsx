@@ -1,4 +1,4 @@
-import type { JobApplication } from '../types/JobApplication';
+import type { ApplicationStatus, JobApplication } from '../types/JobApplication';
 import { formatKeyLabel, formatValue } from '../utils/formats';
 import "./JobApplicationsTable.css";
 
@@ -13,6 +13,15 @@ function JobApplicationsTable({ jobApps, onDeleteJob, onEditJobApp }: JobApplica
         new Set(jobApps.flatMap(j => Object.keys(j).filter(k => k !== "id")))
     ) as (keyof JobApplication)[];
 
+    const statusColours = {
+        saved: "bg-zinc-900",
+        applied: "bg-sky-900",
+        interview: "bg-amber-900",
+        offer: "bg-purple-900",
+        accepted: "bg-teal-900",
+        rejected: "bg-red-900",
+    }
+
     return(
         <div className='space-y-15'>
             {jobApps.map(job => (
@@ -26,7 +35,16 @@ function JobApplicationsTable({ jobApps, onDeleteJob, onEditJobApp }: JobApplica
                         {Object.entries(job).filter(([k, _]) => k !== "id" && k !== "title").map(([dataKey, dataValue]) => (
                             <tr key={dataKey}>
                                 <td className='border-y border-gray-600 px-2 py-3 font-bold'>{formatKeyLabel(dataKey)}</td>
-                                <td className='border-y border-gray-600 px-2 py-3'>{formatValue(dataKey, dataValue)}</td>
+                                <td className='border-y border-gray-600 px-2 py-3'>
+                                    <span
+                                        className={dataKey === "status" ? 
+                                            `rounded-full px-3 py-2 font-medium ${statusColours[dataValue as ApplicationStatus]}` 
+                                        : ''}
+                                    >
+                                        {formatValue(dataKey, dataValue)}
+                                    </span>
+                                    
+                                </td>
                             </tr>
                         ))}
                         <tr>
@@ -64,7 +82,15 @@ function JobApplicationsTable({ jobApps, onDeleteJob, onEditJobApp }: JobApplica
                         {jobApps.map(job => (
                             <tr key={job.id} className='hover:bg-teal-800/10'>
                                 {headers.map(header => (
-                                    <td key={header} className='border-y border-gray-600 p-6 max-w-lg'>{formatValue(header, job[header] ?? "")}</td>
+                                    <td key={header} className='border-y border-gray-600 p-6 max-w-lg'>
+                                        <span
+                                            className={header === "status" ? 
+                                                `rounded-full px-3 py-2 font-medium ${statusColours[job[header]]}` 
+                                                : ''}
+                                        >
+                                            {formatValue(header, job[header] ?? "")}
+                                        </span>
+                                    </td>
                                 ))}
                                 <td className='border-y border-gray-600 p-6 max-w-lg space-x-4'>
                                     <button className="actionButton actionEditButton"
