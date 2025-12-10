@@ -7,34 +7,22 @@ import NewJobApplicationModal from './components/NewJobApplicationModal'
 import type { JobApplication } from './types/JobApplication.ts'
 import { mockJobs } from './data/mockJobs.ts'
 import EditJobApplicationModal from './components/EditJobApplicationModal.tsx'
+import useJobApplicationStore from './hooks/useJobApplicationStore.ts'
 
 function App() {
-  const [jobApps, setJobs] = useState<JobApplication[]>(mockJobs)
   const [isNewAppModalOpen, setIsNewAppModalOpen] = useState(false)
   const [editingJobApp, setEditingJobApp] = useState<JobApplication | null>(null)
-
-  function handleDeleteJob(id: string) {
-    setJobs(prevJobApps => prevJobApps.filter(japp => japp.id !== id))
-  }
-
-  function handleNewJobApp(jobApp: JobApplication) {
-    setJobs(prevJobs => [jobApp, ...prevJobs])
-    setIsNewAppModalOpen(false)
-  }
+  const {
+    jobApplications,
+    handleDeleteJobApplication,
+    handleNewJobApplication,
+    handleSaveJobApplication
+  } = useJobApplicationStore(mockJobs)
 
   function handleStartEditJob(id: string) {
-    const jobApp = jobApps.find(japp => japp.id === id)
+    const jobApp = jobApplications.find(japp => japp.id === id)
     if (!jobApp) return
     setEditingJobApp(jobApp)
-  }
-
-  function handleSaveEditingJob(jobApp: JobApplication) {
-    setJobs(prevJobApps => 
-      prevJobApps.map(japp => 
-        japp.id === jobApp.id ? jobApp : japp
-      )
-    )
-    setEditingJobApp(null)
   }
 
   useEffect(() => {
@@ -52,24 +40,24 @@ function App() {
     <>
       <div className='space-y-4'>
         <Header />
-        <DashboardStats jobApps={jobApps} />
+        <DashboardStats jobApps={jobApplications} />
         <JobApplicationsTable 
-          jobApps={jobApps} 
-          onDeleteJob={handleDeleteJob} 
+          jobApps={jobApplications} 
+          onDeleteJob={handleDeleteJobApplication} 
           onNewJobApp={() => setIsNewAppModalOpen(true)}
           onEditJobApp={handleStartEditJob}
         />
         {isNewAppModalOpen && (
           <NewJobApplicationModal 
             onClose={() => setIsNewAppModalOpen(false)} 
-            onSave={handleNewJobApp} 
+            onSave={handleNewJobApplication} 
           />
         )}
         {editingJobApp && (
           <EditJobApplicationModal
             job={editingJobApp}
             onClose={() => setEditingJobApp(null)}
-            onSave={handleSaveEditingJob}
+            onSave={handleSaveJobApplication}
           />
         )}
       </div>
